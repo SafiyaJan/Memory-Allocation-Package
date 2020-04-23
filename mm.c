@@ -4,10 +4,9 @@
                                      mm.c                              
             64-bit Struct-Based Segregated Free List Memory Allocator        
                    15-213: Introduction to Computer Systems
-                       CMUQ Fall 2017 - Safiya Jan - sjan                                                                                           
+                       CMUQ Fall 2017 - Safiya Jan                                                                                     
    ************************************************************************  
-                                DOCUMENTATION  
-   ************************************************************************ 
+ 
                                                                      
 #include <assert.h>
 #include <stdio.h>
