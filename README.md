@@ -5,7 +5,8 @@ Hello!
 - This repository houses a general pupose dynamic storage allocator that I have programmed in C
 - The allocator was able to achieve a 68.8% space utilization using a carefully designed coalescing algorithm
 
-### Allocator Structure
+## Allocator Structure
+
 - Both allocated and free block share the same header structure
 - HEADER : 8-bytes, aligned to the 8th of a 16 byte aligned heap, where:
          - LSB is set to 1 when the block is allocated,
@@ -21,7 +22,8 @@ Hello!
 
 - Minimum block size is 32 bytes.
 
-#### ALLOCATED BLOCK STRUCTURE
+## Allocated Block Structure
+
 - HEADER - as defined above
 - PAYLOAD - Memory allocated for programs to store information
 - SIZE - Payload size + 8 bytea(header)
@@ -32,7 +34,8 @@ Hello!
 Allocated blocks:   |  HEADER  |  ... PAYLOAD ...  | 
 ```
 
-#### FREE BLOCK STRUCTURE
+## Free block structure
+
 - HEADER - as defined above
 - PAYLOAD - Memory allocated for programs to store information
 - FOOTER - same as header structure, but does not contain allocation 
@@ -48,7 +51,7 @@ Allocated blocks:   |  HEADER  |  ... PAYLOAD ...  |
 Unallocated blocks: |  HEADER  |  ... (empty) ...  |  FOOTER  | 
 ```
 
-#### INITIALIZATION                                                 
+## Initialization                                 
 
 The following visualization reflects the beginning of the heap.
 ```
@@ -64,7 +67,9 @@ INIT: | PROLOGUE_FOOTER | EPILOGUE_HEADER |
 - In the epilogue header, it is also specified that the previous block is 
  allocated, as initially there are no free blocks 
 
- #### BLOCK ALLOCATION & DEALLOCATION                                                
+
+
+## Block allocation and deallocation                                   
 
 - Upon memory request of size S, a block of size S + wsize, rounded up 
  to 16 bytes, is allocated on the heap, where wsize is 8 bytes.
@@ -96,7 +101,7 @@ INIT: | PROLOGUE_FOOTER | EPILOGUE_HEADER |
 - When we free a block, we find the index to which its size maps to and
 then we add it to that free list
 
-#### IMPROVING UTILIZATION  
+## Improving utilization
 - To improve use of the memory, we implement something called 'coalescing'
  which makes sure that at no given time there are two adjecent free blocks
  on the heap my joining the free blocks into one block
