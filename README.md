@@ -6,8 +6,8 @@ Hello!
 - The allocator was able to achieve a 68.8% space utilization using a carefully designed coalescing algorithm
 
 ### Allocator Structure
-Both allocated and free block share the same header structure
-HEADER : 8-bytes, aligned to the 8th of a 16 byte aligned heap, where:
+- Both allocated and free block share the same header structure
+- HEADER : 8-bytes, aligned to the 8th of a 16 byte aligned heap, where:
          - LSB is set to 1 when the block is allocated,
            0, otherwise
          - The 2nd LSB is set to 1 if the previous block is allocated,
@@ -15,41 +15,46 @@ HEADER : 8-bytes, aligned to the 8th of a 16 byte aligned heap, where:
          - The whole 8-byte value with the least significant bit set to 
            0 represents the size of the block as a size_t 
 
-HEADER : 8-byte, aligned the 0th of a 16-byte aligned heap. Allocated 
+- HEADER : 8-byte, aligned the 0th of a 16-byte aligned heap. Allocated 
          blocks DO NOT have footers, but free blocks do, reflecting 
          the same structure as a header.
 
 - Minimum block size is 32 bytes.
 
-#### ALLOCATED BLOCK STRUCTURE:
-HEADER - as defined above
-PAYLOAD - Memory allocated for programs to store information
-SIZE - Payload size + 8 bytea(header)
+#### ALLOCATED BLOCK STRUCTURE
+- HEADER - as defined above
+- PAYLOAD - Memory allocated for programs to store information
+- SIZE - Payload size + 8 bytea(header)
 
-##### Block Visualization.                                                      
+##### Block Visualization
+```
                  block     block+8            block+size  
 Allocated blocks:   |  HEADER  |  ... PAYLOAD ...  | 
+```
 
-
-#### FREE BLOCK STRUCTURE:
-HEADER - as defined above
-PAYLOAD - Memory allocated for programs to store information
-FOOTER - same as header structure, but does not contain allocation 
+#### FREE BLOCK STRUCTURE
+- HEADER - as defined above
+- PAYLOAD - Memory allocated for programs to store information
+- FOOTER - same as header structure, but does not contain allocation 
          status of the previous block
-SIZE - Min of 32 bytes
+- SIZE - Min of 32 bytes
 - Each free block also contains prev and next pointers to the next 
   and previous free blocks, therefore each pointer is 8 bytes with 
   a header and footer of 8 bytes each, giving a total of 32 bytes
 
-##### Block Visualization:    
+##### Block Visualization 
+```
                   block      block+8        block+size-8   block+size    
 Unallocated blocks: |  HEADER  |  ... (empty) ...  |  FOOTER  | 
+```
 
 #### INITIALIZATION                                                 
 
-The following visualization reflects the beginning of the heap.           
+The following visualization reflects the beginning of the heap.
+```
    start            start+8           start+16                           
-INIT: | PROLOGUE_FOOTER | EPILOGUE_HEADER |                               
+INIT: | PROLOGUE_FOOTER | EPILOGUE_HEADER |   
+```
 PROLOGUE_FOOTER: 8-byte footer, as defined above, that simulates the      
                  end of an allocated block. Also serves as padding.      
 EPILOGUE_HEADER: 8-byte block indicating the end of the heap.             
