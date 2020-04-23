@@ -55,9 +55,9 @@ The following visualization reflects the beginning of the heap.
    start            start+8           start+16                           
 INIT: | PROLOGUE_FOOTER | EPILOGUE_HEADER |   
 ```
-PROLOGUE_FOOTER: 8-byte footer, as defined above, that simulates the      
+- PROLOGUE_FOOTER: 8-byte footer, as defined above, that simulates the      
                  end of an allocated block. Also serves as padding.      
-EPILOGUE_HEADER: 8-byte block indicating the end of the heap.             
+- EPILOGUE_HEADER: 8-byte block indicating the end of the heap.             
                 It simulates the beginning of an allocated block         
                 The epilogue header is moved when the heap is extended. 
 
